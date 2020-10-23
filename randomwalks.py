@@ -102,3 +102,29 @@ def walk(f, d, numSteps):
         f.moveDrunk(d)
 
     return start.distFrom(f.getLoc(d))
+
+
+def simWalks(numSteps, numTrials, dClass):
+    drunk = dClass()
+    origin = Location(0, 0)
+    distances = []
+
+    for trial in range(numTrials):
+        f = Field()
+        f.addDrunk(drunk, origin)
+
+        w = walk(f, drunk, numSteps)
+
+        distances.append(round(w, 1))
+    
+    return distances
+
+
+def drunkTest(walkLengths, numTrials, dClass):
+    for numSteps in walkLengths:
+        distances = simWalks(numSteps, numTrials, dClass)
+
+        print(dClass.__name__, 'random walks of', numSteps, 'steps')
+        print('Mean = ', round(sum(distances)/len(distances), 4))
+        print('Max = ', max(distances))
+        print('Min = ', min(distances))
